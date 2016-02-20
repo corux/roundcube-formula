@@ -1,5 +1,8 @@
 {% from "roundcube/map.jinja" import roundcube with context %}
 
+include:
+  - selinux
+
 {% for dir in [ 'temp', 'logs' ] %}
 roundcube-selinux-{{ dir }}:
   cmd.run:
