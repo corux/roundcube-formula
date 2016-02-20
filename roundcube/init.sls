@@ -1,5 +1,5 @@
 {% from 'roundcube/map.jinja' import roundcube with context %}
-{% set is_selinux_enabled = salt.cmd.run('sestatus') == '1' %}
+{% set is_selinux_enabled = salt.cmd.retcode('selinuxenabled') == 0 %}
 
 include:
   - php.ng
@@ -62,7 +62,7 @@ roundcube-update:
   cmd.run:
     - name: './bin/update.sh --accept --version=$(grep RCMAIL_VERSION "{{ roundcube.install }}/program/include/iniset.php"|grep -E -o "[0-9\.]+[a-z\-]*")'
     - cwd: {{ roundcube.current }}
-    - onlyif: test -e {{ roundcube.install }} && test '$(readlink -f {{ roundcube.install }})' != '{{ roundcube.current }}'
+    - onlyif: test -e {{ roundcube.install }} && test "$(readlink -f '{{ roundcube.install }}')" != "{{ roundcube.current }}"
     - require:
       - archive: roundcube-install
     - require_in:
