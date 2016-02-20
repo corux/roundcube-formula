@@ -1,5 +1,5 @@
 {% from 'roundcube/map.jinja' import roundcube with context %}
-{% set is_selinux_enabled = salt.cmd.retcode('selinuxenabled') == 0 %}
+{% from 'selinux/map.jinja' import selinux with context %}
 
 include:
   - php.ng
@@ -9,7 +9,7 @@ include:
   - php.ng.pear
   - php.ng.mysql
   - php.ng.pgsql
-{% if is_selinux_enabled %}
+{% if selinux.enabled %}
   - .selinux
 {% endif %}
 

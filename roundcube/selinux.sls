@@ -1,9 +1,5 @@
 {% from "roundcube/map.jinja" import roundcube with context %}
 
-policycoreutils-python:
-  pkg.installed:
-    - name: policycoreutils-python
-
 {% for dir in [ 'temp', 'logs' ] %}
 roundcube-selinux-{{ dir }}:
   cmd.run:
