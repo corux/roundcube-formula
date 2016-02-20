@@ -1,0 +1,10 @@
+{% import_yaml 'roundcube/defaults.yaml' as default_settings %}
+{% set roundcube = salt['pillar.get']('roundcube', default=default_settings.get('roundcube'), merge=True) %}
+
+{% do roundcube.update({
+  'url': 'http://sourceforge.net/projects/roundcubemail/files/roundcubemail/' + roundcube.version + '/roundcubemail-' + roundcube.version + '-complete.tar.gz/download',
+  'source': '/tmp/roundcube-' + roundcube.version + '.tar.gz',
+  'extract': roundcube.directory + '/extract',
+  'install': roundcube.directory + '/install',
+  'current': roundcube.directory + '/extract/roundcubemail-' + roundcube.version
+}) %}

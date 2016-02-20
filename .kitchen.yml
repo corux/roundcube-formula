@@ -1,0 +1,30 @@
+driver:
+  name: docker
+
+platforms:
+  - name: centos-7
+    driver_config:
+      image: corux/centos7-salt
+      cap_add:
+        - SYS_ADMIN
+      run_command: /usr/sbin/init
+
+provisioner:
+  name: salt_solo
+  formula: roundcube
+  vendor_path: srv/salt
+  pillars-from-files:
+    roundcube.sls: pillar.example
+  pillars:
+    top.sls:
+      base:
+        "*":
+          - roundcube
+  state_top:
+    base:
+      "*":
+        - roundcube
+        - roundcube.apache
+
+suites:
+  - name: default
