@@ -13,6 +13,12 @@ include:
   - .selinux
 {% endif %}
 
+{% if roundcube.get('pkgs') %}
+roundcube-deps:
+  pkg.installed:
+    - pkgs: {{ roundcube.pkgs }}
+{% endif %}
+
 roundcube-extractdir:
   file.directory:
     - name: {{ roundcube.extract }}

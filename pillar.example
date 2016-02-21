@@ -3,3 +3,5 @@ roundcube:
   plugins:
     johndoh/sieverules: dev-release-2.2
     roundcube/carddav: dev-master
+  pkgs:
+    - php-pecl-krb5
