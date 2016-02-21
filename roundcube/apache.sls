@@ -9,6 +9,6 @@ roundcube-apache:
     - source: salt://roundcube/files/roundcube-apache.conf
     - template: jinja
     - defaults:
-        config: {{ roundcube }}
+        config: {{ roundcube|json }}
     - watch_in:
-      - module: apache-reload
+      - module: apache-restart
