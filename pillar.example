@@ -1,5 +1,11 @@
 roundcube:
   version: 1.1.4
+  config:
+    default_host: 'tls://localhost'
+    smtp_server: 'tls://localhost'
+    plugins:
+      - sieverules
+      - carddav
   plugins:
     johndoh/sieverules: dev-release-2.2
     roundcube/carddav: dev-master

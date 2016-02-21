@@ -103,18 +103,24 @@ roundcube-chmod-{{ dir }}:
       - file: roundcube-install
 {% endfor %}
 
-roundcube-remember-oldversion:
+{%- macro get_version(dir) -%}
+grep RCMAIL_VERSION {{ dir }}/program/include/iniset.php|grep -E -o [0-9\.]+[a-z\-]*
+{%- endmacro %}
+{% set oldversion = roundcube.directory + '/oldversion' %}
+
+roundcube-remember-current-version:
   cmd.run:
-    - name: 'grep RCMAIL_VERSION "{{ roundcube.install }}/program/include/iniset.php"|grep -E -o "[0-9\.]+[a-z\-]*" > {{ roundcube.current }}/oldversion'
-    - onlyif: test -e {{ roundcube.install }} && test ! -f {{ roundcube.current }}/oldversion
+    - name: {{ get_version(roundcube.install) }} > {{ oldversion }}
+    - onlyif: test -e {{ roundcube.install }} && test "$(cat {{ oldversion }})" != "$({{ get_version(roundcube.install) }})"
+    - cwd: {{ roundcube.current }}
     - require_in:
       - file: roundcube-install
 
 roundcube-update:
   cmd.run:
-    - name: './bin/update.sh --accept --version=$(cat {{ roundcube.current }}/oldversion) && rm -f {{ roundcube.current }}/oldversion'
+    - name: ./bin/update.sh --accept --version=$(cat {{ oldversion }})
+    - onlyif: test -f {{ oldversion }} && test "$(cat {{ oldversion }})" != "$({{ get_version(roundcube.install) }})"
     - cwd: {{ roundcube.current }}
-    - onlyif: test -f {{ roundcube.current }}/oldversion
     - require:
       - file: roundcube-config
       - cmd: roundcube-composer-run
