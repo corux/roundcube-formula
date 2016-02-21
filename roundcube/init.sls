@@ -96,3 +96,17 @@ roundcube-config:
 {%- for key, val in roundcube.get('config', {}).items() %}
         $config['{{ key }}'] = {{ php_serialize(val) }};
 {%- endfor %}
+
+roundcube-cronjob:
+  pkg.installed:
+    - name: cronie
+
+  file.managed:
+    - name: /etc/cron.d/roundcube
+    - mode: 600
+    - contents: |
+        # clean db
+        30 3 * * *     root   {{ roundcube.install }}/bin/cleandb.sh
+    - require:
+      - pkg: roundcube-cronjob
+      - file: roundcube-install
