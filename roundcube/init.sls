@@ -149,6 +149,14 @@ roundcube-config:
         $config['{{ key }}'] = {{ php_serialize(val) }};
 {%- endfor %}
 
+{% for file, contents in roundcube.get('custom_config').items() %}
+roundcube-custom-config-{{ file }}:
+  file.managed:
+    - name: {{ roundcube.current }}/{{ file }}
+    - contents: |
+        {{ contents }}
+{% endfor %}
+
 roundcube-cronjob:
   pkg.installed:
     - name: cronie
