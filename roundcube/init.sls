@@ -7,8 +7,7 @@ include:
   - php.ng.mbstring
   - php.ng.xml
   - php.ng.pear
-  - php.ng.mysql
-  - php.ng.pgsql
+  - php.ng.{{ 'mysql' if roundcube.get('config', {}).get('db_dsnw').startswith('mysql') else 'pgsql' }}
 {% if selinux.enabled %}
   - .selinux
 {% endif %}
@@ -67,3 +66,33 @@ roundcube-update:
       - archive: roundcube-install
     - require_in:
       - file: roundcube-install
+
+{%- macro php_serialize(value) %}
+{%- if value is string or value is number -%}
+  {{ value|json }}
+{%- elif value is iterable -%}
+array(
+  {%- for inner in value -%}
+  {{ php_serialize(inner) }},
+  {%- endfor -%}
+)
+{%- elif value is none -%}
+  null
+{%- else -%}
+  {{ value|json }}
+{%- endif %}
+{%- endmacro %}
+
+roundcube-config:
+  file.managed:
+    - name: {{ roundcube.install }}/config/config.inc.php
+    - mode: 640
+    - group: apache
+    - require:
+      - file: roundcube-install
+    - contents: |
+        <?php
+        $config = array();
+{%- for key, val in roundcube.get('config', {}).items() %}
+        $config['{{ key }}'] = {{ php_serialize(val) }};
+{%- endfor %}

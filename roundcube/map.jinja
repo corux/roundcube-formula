@@ -8,3 +8,10 @@
   'install': roundcube.directory + '/install',
   'current': roundcube.directory + '/extract/roundcubemail-' + roundcube.version
 }) %}
+
+{% if roundcube.get('db') %}
+{% set db = roundcube.db %}
+{% do roundcube.config.update({
+  'db_dsnw': db.type + '://' + db.username + ':' + db.password + '@' + db.host + '/' + db.database
+}) %}
+{% endif %}

@@ -1,3 +1,17 @@
 roundcube:
   directory: /opt/roundcube
   version: 1.1.4
+  db:
+    type: pgsql
+    host: localhost
+    database: roundcube
+    username: RoundcubeUser
+    password: RoundcubePassword
+  config:
+    product_name: Roundcube Webmail
+    des_key: ChangeMe_DesEncryptionKey
+    spellcheck_before_send: True
+    show_images: 1
+    plugins:
+      - archive
+      - zipdownload
