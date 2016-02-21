@@ -11,3 +11,7 @@ books:
     git: "https://github.com/corux/selinux-formula.git"
   - book: "srv/salt/selinux"
     link: "../formulas/selinux/selinux"
+  - book: "srv/formulas/epel"
+    git: "https://github.com/saltstack-formulas/epel-formula.git"
+  - book: "srv/salt/epel"
+    link: "../formulas/epel/epel"

@@ -2,6 +2,7 @@
 {% from 'selinux/map.jinja' import selinux with context %}
 
 include:
+  - epel
   - php.ng
   - php.ng.intl
   - php.ng.mbstring
@@ -43,6 +44,45 @@ roundcube-install:
     - require:
       - archive: roundcube-install
 
+roundcube-composer-download:
+  cmd.run:
+    - name: curl -s https://getcomposer.org/installer | php
+    - unless: test -f {{ roundcube.current }}/composer.phar
+    - cwd: {{ roundcube.current }}
+    - require:
+      - archive: roundcube-install
+
+roundcube-composer-json:
+  pkg.installed:
+    - name: jq
+
+  file.managed:
+    - name: {{ roundcube.current }}/composer.json-salt
+    - contents: |
+        {{ roundcube.get('composer', {})|json }}
+    - require:
+      - archive: roundcube-install
+
+  cmd.wait:
+    - name: "jq -s '.[0] * .[1]' composer.json-dist composer.json-salt > composer.json"
+    - cwd: {{ roundcube.current }}
+    - require:
+      - pkg: roundcube-composer-json
+    - watch:
+      - file: roundcube-composer-json
+
+roundcube-composer-run:
+  pkg.installed:
+    - name: git
+
+  cmd.wait:
+    - name: php composer.phar install --no-dev
+    - cwd: {{ roundcube.current }}
+    - require:
+      - pkg: roundcube-composer-run
+    - watch:
+      - cmd: roundcube-composer-json
+
 {% for dir in [ 'temp', 'logs' ] %}
 roundcube-chmod-{{ dir }}:
   file.directory:
@@ -63,9 +103,8 @@ roundcube-update:
     - cwd: {{ roundcube.current }}
     - onlyif: test -e {{ roundcube.install }} && test "$(readlink -f '{{ roundcube.install }}')" != "{{ roundcube.current }}"
     - require:
-      - archive: roundcube-install
-    - require_in:
-      - file: roundcube-install
+      - file: roundcube-config
+      - cmd: roundcube-composer-run
 
 {%- macro php_serialize(value) %}
 {%- if value is string or value is number -%}

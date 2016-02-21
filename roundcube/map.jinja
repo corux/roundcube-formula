@@ -5,7 +5,7 @@
 {% if '-' in roundcube.version %}
 {% set url = url + '-beta' %}
 {% endif %}
-{% set url = url + '/' + roundcube.version + '/roundcubemail-' + roundcube.version + '-complete.tar.gz/download' %}
+{% set url = url + '/' + roundcube.version + '/roundcubemail-' + roundcube.version + '.tar.gz/download' %}
 
 {% do roundcube.update({
   'url': url,
@@ -19,5 +19,13 @@
 {% set db = roundcube.db %}
 {% do roundcube.config.update({
   'db_dsnw': db.type + '://' + db.username + ':' + db.password + '@' + db.host + '/' + db.database
+}) %}
+{% endif %}
+
+{% if roundcube.get('plugins') %}
+{% do roundcube.update({
+  'composer': {
+    'require': roundcube.plugins
+  }
 }) %}
 {% endif %}
