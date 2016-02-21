@@ -100,13 +100,13 @@ roundcube-chmod-{{ dir }}:
 roundcube-remember-oldversion:
   cmd.run:
     - name: 'grep RCMAIL_VERSION "{{ roundcube.install }}/program/include/iniset.php"|grep -E -o "[0-9\.]+[a-z\-]*" > {{ roundcube.current }}/oldversion'
-    - onlyif: test -e {{ roundcube.install }}
+    - onlyif: test -e {{ roundcube.install }} && test ! -f {{ roundcube.current }}/oldversion
     - require_in:
       - file: roundcube-install
 
 roundcube-update:
   cmd.run:
-    - name: './bin/update.sh --accept --version=$(cat {{ roundcube.current }}/oldversion)'
+    - name: './bin/update.sh --accept --version=$(cat {{ roundcube.current }}/oldversion) && rm -f {{ roundcube.current }}/oldversion'
     - cwd: {{ roundcube.current }}
     - onlyif: test -f {{ roundcube.current }}/oldversion
     - require:

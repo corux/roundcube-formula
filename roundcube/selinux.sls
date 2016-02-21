@@ -6,8 +6,8 @@ include:
 {% for dir in [ 'temp', 'logs' ] %}
 roundcube-selinux-{{ dir }}:
   cmd.run:
-    - name: "semanage fcontext -a -t httpd_sys_rw_content_t '{{ roundcube.install }}/{{ dir }}(/.*)?'"
-    - unless: "semanage fcontext --list | grep '{{ roundcube.install }}/{{ dir }}(/.*)?' | grep httpd_sys_rw_content_t"
+    - name: "semanage fcontext -a -t httpd_sys_rw_content_t '{{ roundcube.extract }}/.*/{{ dir }}(/.*)?'"
+    - unless: "semanage fcontext --list | grep '{{ roundcube.extract }}/.*/{{ dir }}(/.*)?' | grep httpd_sys_rw_content_t"
     - require:
       - file: roundcube-install
     - watch_in:
