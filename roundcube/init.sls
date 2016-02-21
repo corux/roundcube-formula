@@ -149,12 +149,12 @@ roundcube-config:
         $config['{{ key }}'] = {{ php_serialize(val) }};
 {%- endfor %}
 
-{% for file, contents in roundcube.get('custom_config').items() %}
+{% for file, contents in roundcube.get('custom_config', {}).items() %}
 roundcube-custom-config-{{ file }}:
   file.managed:
     - name: {{ roundcube.current }}/{{ file }}
     - contents: |
-        {{ contents }}
+        {{ contents|indent(8) }}
 {% endfor %}
 
 roundcube-cronjob:
