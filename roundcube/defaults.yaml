@@ -15,3 +15,6 @@ roundcube:
     plugins:
       - archive
       - zipdownload
+  composer:
+    config:
+      secure-http: False
