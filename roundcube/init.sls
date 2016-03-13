@@ -128,6 +128,12 @@ roundcube-update:
 {%- macro php_serialize(value) %}
 {%- if value is string or value is number -%}
   {{ value|json }}
+{%- elif value is mapping -%}
+array(
+  {%- for key, inner in value.items() -%}
+  {{ php_serialize(key) }} => {{ php_serialize(inner) }},
+  {%- endfor -%}
+)
 {%- elif value is iterable -%}
 array(
   {%- for inner in value -%}
