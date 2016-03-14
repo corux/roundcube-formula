@@ -18,3 +18,9 @@ roundcube:
   composer:
     config:
       secure-http: False
+
+imapproxy:
+  config:
+    server_hostname: imap.example.com
+    listen_port: 143
+    listen_address: 127.0.0.1

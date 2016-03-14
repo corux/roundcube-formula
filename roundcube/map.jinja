@@ -1,5 +1,6 @@
 {% import_yaml 'roundcube/defaults.yaml' as default_settings %}
 {% set roundcube = salt['pillar.get']('roundcube', default=default_settings.get('roundcube'), merge=True) %}
+{% set imapproxy = salt['pillar.get']('imapproxy', default=default_settings.get('imapproxy'), merge=True) %}
 
 {% set url = 'http://sourceforge.net/projects/roundcubemail/files/roundcubemail' %}
 {% if '-' in roundcube.version %}

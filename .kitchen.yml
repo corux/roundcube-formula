@@ -24,6 +24,7 @@ provisioner:
       "*":
         - roundcube
         - roundcube.apache
+        - roundcube.imapproxy
 
 suites:
   - name: default

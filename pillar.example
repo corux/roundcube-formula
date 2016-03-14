@@ -11,3 +11,7 @@ roundcube:
     roundcube/carddav: dev-master
   pkgs:
     - php-pecl-krb5
+
+imapproxy:
+  config:
+    server_hostname: imap.gmx.net
