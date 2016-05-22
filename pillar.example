@@ -1,5 +1,5 @@
 roundcube:
-  version: 1.1.4
+  #version: 1.1.4
   config:
     default_host: 'tls://localhost'
     smtp_server: 'tls://localhost'
