@@ -2,11 +2,7 @@
 {% set roundcube = salt['pillar.get']('roundcube', default=default_settings.get('roundcube'), merge=True) %}
 {% set imapproxy = salt['pillar.get']('imapproxy', default=default_settings.get('imapproxy'), merge=True) %}
 
-{% set url = 'http://sourceforge.net/projects/roundcubemail/files/roundcubemail' %}
-{% if '-' in roundcube.version %}
-{% set url = url + '-beta' %}
-{% endif %}
-{% set url = url + '/' + roundcube.version + '/roundcubemail-' + roundcube.version + '.tar.gz/download' %}
+{% set url = 'https://github.com/roundcube/roundcubemail/releases/download/' + roundcube.version + '/roundcubemail-' + roundcube.version + '-complete.tar.gz' %}
 
 {% do roundcube.update({
   'url': url,
