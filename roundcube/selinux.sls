@@ -3,7 +3,7 @@
 include:
   - selinux
 
-{% for dir in [ 'temp', 'logs' ] %}
+{% for dir in [ 'temp', 'logs', 'plugins/enigma/home' ] %}
 roundcube-selinux-{{ dir }}:
   cmd.run:
     - name: "semanage fcontext -a -t httpd_sys_rw_content_t '{{ roundcube.extract }}/.*/{{ dir }}(/.*)?'"

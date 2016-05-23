@@ -89,13 +89,13 @@ roundcube-composer-run:
     - watch:
       - cmd: roundcube-composer-json
 
-{% for dir in [ 'temp', 'logs' ] %}
+{% for dir in [ 'temp', 'logs', 'plugins/enigma/home' ] %}
 roundcube-chmod-{{ dir }}:
   file.directory:
     - name: {{ roundcube.install }}/{{ dir }}
     - user: apache
     - group: apache
-    - mode: 755
+    - mode: 750
     - recurse:
       - user
       - group
