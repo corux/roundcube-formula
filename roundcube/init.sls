@@ -69,24 +69,24 @@ roundcube-composer-json:
     - require:
       - archive: roundcube-install
 
-  cmd.wait:
+  cmd.run:
     - name: "jq -s '.[0] * .[1]' composer.json-dist composer.json-salt > composer.json"
     - cwd: {{ roundcube.current }}
     - require:
       - pkg: roundcube-composer-json
-    - watch:
+    - onchanges:
       - file: roundcube-composer-json
 
 roundcube-composer-run:
   pkg.installed:
     - name: git
 
-  cmd.wait:
+  cmd.run:
     - name: php composer.phar install --no-dev
     - cwd: {{ roundcube.current }}
     - require:
       - pkg: roundcube-composer-run
-    - watch:
+    - onchanges:
       - cmd: roundcube-composer-json
 
 {% for dir in [ 'temp', 'logs', 'plugins/enigma/home' ] %}
