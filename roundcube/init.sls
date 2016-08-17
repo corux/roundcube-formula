@@ -82,7 +82,7 @@ roundcube-composer-run:
     - name: git
 
   cmd.run:
-    - name: php composer.phar install --no-dev --no-interaction
+    - name: php composer.phar update --no-dev --no-interaction
     - cwd: {{ roundcube.current }}
     - require:
       - pkg: roundcube-composer-run
