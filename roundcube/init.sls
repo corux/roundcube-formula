@@ -19,6 +19,10 @@ roundcube-deps:
     - pkgs: {{ roundcube.pkgs }}
 {% endif %}
 
+roundcube-deps-git:
+  pkg.installed:
+    - name: git
+
 roundcube-extractdir:
   file.directory:
     - name: {{ roundcube.extract }}
@@ -78,16 +82,23 @@ roundcube-composer-json:
       - file: roundcube-composer-json
 
 roundcube-composer-run:
-  pkg.installed:
-    - name: git
-
   cmd.run:
     - name: php composer.phar update --no-dev --no-interaction
     - cwd: {{ roundcube.current }}
     - require:
-      - pkg: roundcube-composer-run
+      - pkg: roundcube-deps-git
     - onchanges:
       - cmd: roundcube-composer-json
+
+{% for skin in roundcube.get('skins', []) %}
+roundcube-skin-{{ skin.name }}:
+  git.latest:
+    - name: {{ skin.url }}
+    - rev: {{ skin.version }}
+    - target: {{ roundcube.current }}/skins/{{ skin.name }}
+    - require:
+      - pkg: roundcube-deps-git
+{% endfor %}
 
 {% for dir in [ 'temp', 'logs', 'plugins/enigma/home' ] %}
 roundcube-chmod-{{ dir }}:

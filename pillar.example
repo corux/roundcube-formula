@@ -9,6 +9,10 @@ roundcube:
   plugins:
     johndoh/sieverules: dev-release-2.2
     roundcube/carddav: dev-master
+  skins:
+    - name: melanie2_larry_mobile
+      url: https://github.com/messagerie-melanie2/Roundcube-Skin-Melanie2-Larry-Mobile
+      version: master
   pkgs:
     - php-pecl-krb5
 

@@ -13,3 +13,7 @@ end
 describe file("/opt/roundcube/install/config/config.inc.php") do
   it { should exist }
 end
+
+describe file("/opt/roundcube/install/skins/melanie2_larry_mobile/meta.json") do
+  it { should exist }
+end
