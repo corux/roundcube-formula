@@ -40,11 +40,7 @@ roundcube-install:
   archive.extracted:
     - name: {{ roundcube.extract }}
     - source: {{ roundcube.source }}
-    - archive_format: tar
-    - tar_options: z
     - if_missing: {{ roundcube.current }}
-    - user: root
-    - group: root
     - require:
       - file: roundcube-extractdir
 
