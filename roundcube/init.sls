@@ -33,8 +33,6 @@ roundcube-download:
   cmd.run:
     - name: "curl -L --silent '{{ roundcube.url }}' > '{{ roundcube.source }}'"
     - unless: "test -f '{{ roundcube.source }}'"
-    - prereq:
-      - archive: roundcube-install
 
 roundcube-install:
   archive.extracted:
@@ -42,6 +40,7 @@ roundcube-install:
     - source: {{ roundcube.source }}
     - if_missing: {{ roundcube.current }}
     - require:
+      - cmd: roundcube-download
       - file: roundcube-extractdir
 
   file.symlink:
