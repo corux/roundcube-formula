@@ -4,6 +4,7 @@
 include:
   - epel
   - php.ng
+  - php.ng.gd
   - php.ng.intl
   - php.ng.mbstring
   - php.ng.xml
