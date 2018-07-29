@@ -9,6 +9,7 @@ imapproxy:
     - enable: True
     - require:
       - pkg: imapproxy
+      - cmd: imapproxy-trim-whitespaces
 
 {% for key, value in imapproxy.config.items() %}
 imapproxy-config-{{ key }}:
@@ -19,4 +20,11 @@ imapproxy-config-{{ key }}:
     - append_if_not_found: True
     - watch_in:
       - service: imapproxy
+      - cmd: imapproxy-trim-whitespaces
 {% endfor %}
+
+imapproxy-trim-whitespaces:
+  cmd.run:
+    - name: "sed 's/^[ \t]*//' --in-place /etc/imapproxy.conf"
+    - watch:
+      - pkg: imapproxy
