@@ -172,6 +172,8 @@ roundcube-config:
 roundcube-custom-config-{{ file }}:
   file.managed:
     - name: {{ roundcube.current }}/{{ file }}
+    - require:
+      - cmd: roundcube-update
     - contents: |
         {{ contents|indent(8) }}
 {% endfor %}
