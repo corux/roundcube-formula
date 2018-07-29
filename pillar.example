@@ -8,7 +8,7 @@ roundcube:
       - carddav
   plugins:
     johndoh/sieverules: dev-release-2.2
-    roundcube/carddav: dev-master
+    roundcube/carddav: 2.0.4
   skins:
     - name: melanie2_larry_mobile
       url: https://github.com/messagerie-melanie2/Roundcube-Skin-Melanie2-Larry-Mobile
