@@ -13,10 +13,16 @@
 }) %}
 
 {% if roundcube.get('db') %}
-{% set db = roundcube.db %}
-{% do roundcube.config.update({
+{%   set db = roundcube.db %}
+{%   if db.type in ['mysql', 'mysqli', 'pgsql'] %}
+{%     do roundcube.config.update({
   'db_dsnw': db.type + '://' + db.username + ':' + db.password + '@' + db.host + '/' + db.database
 }) %}
+{%   elif db.type == 'sqlite' %}
+{%     do roundcube.config.update({
+  'db_dsnw': '{dbtype}:///{database}?mode={permissions}'.format(dbtype=db.type, database=db.database, permissions=db.get('permissions', '0644'))
+}) %}
+{%   endif %}
 {% endif %}
 
 {% if roundcube.get('plugins') %}

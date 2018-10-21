@@ -1,5 +1,7 @@
-{% from 'roundcube/map.jinja' import roundcube with context %}
-{% from 'selinux/map.jinja' import selinux with context %}
+{%- from 'roundcube/map.jinja' import roundcube with context %}
+{%- from 'selinux/map.jinja' import selinux with context %}
+
+{%- set db_type = roundcube.get('config', {}).get('db_dsnw', 'pgsql://').split(':') | first -%}
 
 include:
   - epel
@@ -9,8 +11,14 @@ include:
   - php.ng.mbstring
   - php.ng.xml
   - php.ng.pear
-  - php.ng.{{ 'mysql' if roundcube.get('config', {}).get('db_dsnw').startswith('mysql') else 'pgsql' }}
-{% if selinux.enabled %}
+{%- if db_type in ['mysql', 'mysqli'] %}
+  - php.ng.mysql
+{%- elif db_type == 'sqlite' %}
+  - php.ng.sqlite
+{%- elif db_type == 'pgsql' %}
+  - php.ng.pgsql
+{%- endif %}
+{%- if selinux.enabled %}
   - .selinux
 {% endif %}
 
