@@ -24,7 +24,7 @@ imapproxy-config-{{ key }}:
 {% endfor %}
 
 imapproxy-trim-whitespaces:
-  cmd.run:
+  cmd.wait:
     - name: "sed 's/^[ \t]*//' --in-place /etc/imapproxy.conf"
     - watch:
       - pkg: imapproxy
