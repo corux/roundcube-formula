@@ -25,7 +25,7 @@ include:
 {% if roundcube.get('pkgs') %}
 roundcube-deps:
   pkg.installed:
-    - pkgs: {{ roundcube.pkgs }}
+    - pkgs: {{ roundcube.pkgs|json }}
 {% endif %}
 
 roundcube-deps-git:
