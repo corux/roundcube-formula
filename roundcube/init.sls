@@ -5,18 +5,18 @@
 
 include:
   - epel
-  - php.ng
-  - php.ng.gd
-  - php.ng.intl
-  - php.ng.mbstring
-  - php.ng.xml
-  - php.ng.pear
+  - php
+  - php.gd
+  - php.intl
+  - php.mbstring
+  - php.xml
+  - php.pear
 {%- if db_type in ['mysql', 'mysqli'] %}
-  - php.ng.mysql
+  - php.mysql
 {%- elif db_type == 'sqlite' %}
-  - php.ng.sqlite
+  - php.sqlite
 {%- elif db_type == 'pgsql' %}
-  - php.ng.pgsql
+  - php.pgsql
 {%- endif %}
 {%- if selinux.enabled %}
   - .selinux
