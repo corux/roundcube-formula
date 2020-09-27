@@ -1,6 +1,6 @@
 roundcube:
   directory: /opt/roundcube
-  version: 1.4.8
+  version: 1.4.9
   db:
     type: pgsql
     host: localhost
