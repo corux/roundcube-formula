@@ -11,4 +11,4 @@ roundcube-apache:
     - defaults:
         config: {{ roundcube|json }}
     - watch_in:
-      - module: apache-restart
+      - module: apache-service-running-reload
