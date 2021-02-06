@@ -13,6 +13,15 @@ jobs:
         with:
           ruby-version: 2.7
       - run: bundle install
-      - run: pip install -r test-requirements.txt
-      - run: gitshelf install
+      - name: fetch dependencies
+        run: |
+          mkdir -p srv/salt
+          git clone https://github.com/saltstack-formulas/apache-formula.git srv/formulas/apache
+          ln -s ../formulas/apache/apache srv/salt/apache
+          git clone https://github.com/saltstack-formulas/php-formula.git srv/formulas/php
+          ln -s ../formulas/php/php srv/salt/php
+          git clone https://github.com/corux/selinux-formula.git srv/formulas/selinux
+          ln -s ../formulas/selinux/selinux srv/salt/selinux
+          git clone https://github.com/saltstack-formulas/epel-formula.git srv/formulas/epel
+          ln -s ../formulas/epel/epel srv/salt/epel
       - run: kitchen test
