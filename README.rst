@@ -1,9 +1,7 @@
 =================
 roundcube-formula
 =================
-
-.. image:: https://travis-ci.org/corux/roundcube-formula.svg?branch=master
-    :target: https://travis-ci.org/corux/roundcube-formula
+.. image:: https://github.com/corux/roundcube-formula/workflows/Test/badge.svg?branch=master
 
 Installs the Roundcube webmail software.
 

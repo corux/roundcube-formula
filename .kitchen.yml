@@ -5,8 +5,6 @@ platforms:
   - name: centos-7
     driver_config:
       image: corux/centos7-salt
-      privileged: True
-      run_command: /usr/sbin/init
 
 provisioner:
   name: salt_solo
